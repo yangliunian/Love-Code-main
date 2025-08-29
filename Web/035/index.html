@@ -1,0 +1,302 @@
+﻿<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>七夕的告白</title>
+  <style>
+    * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+    }
+
+    body {
+        min-height: 100vh;
+        background: linear-gradient(135deg, #1a0315 0%, #2f0b4e 50%, #1a0315 100%);
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        overflow: hidden;
+        font-family: 'Arial', sans-serif;
+    }
+
+    .container {
+        text-align: center;
+        position: relative;
+        z-index: 10;
+        padding: 2rem;
+        max-width: 800px;
+    }
+
+    h1 {
+        color: #fff;
+        font-size: 3rem;
+        margin-bottom: 2rem;
+        text-shadow: 0 0 10px #ff6ec7, 0 0 20px #ff6ec7;
+        animation: pulse 3s infinite;
+    }
+
+    .message {
+        background-color: rgba(255, 255, 255, 0.1);
+        border-radius: 15px;
+        padding: 2rem;
+        color: #fff;
+        font-size: 1.2rem;
+        line-height: 1.8;
+        margin-bottom: 2rem;
+        backdrop-filter: blur(10px);
+        border: 1px solid rgba(255, 255, 255, 0.2);
+    }
+
+    .buttons {
+        display: flex;
+        justify-content: center;
+        gap: 2rem;
+        margin-top: 2rem;
+    }
+
+    button {
+        padding: 1rem 2rem;
+        border: none;
+        border-radius: 30px;
+        font-size: 1.1rem;
+        cursor: pointer;
+        transition: all 0.3s ease;
+    }
+
+    #accept {
+        background-color: #ff6ec7;
+        color: white;
+        box-shadow: 0 0 15px #ff6ec7;
+    }
+
+    #refuse {
+        background-color: transparent;
+        color: white;
+        border: 2px solid white;
+        position: relative;
+    }
+
+    #accept:hover {
+        transform: scale(1.1);
+        box-shadow: 0 0 25px #ff6ec7;
+    }
+
+    .heart {
+        position: absolute;
+        width: 20px;
+        height: 20px;
+        background-color: #ff6ec7;
+        transform: rotate(45deg);
+        animation: float 4s infinite ease-in-out;
+    }
+
+    .heart:before,
+    .heart:after {
+        content: '';
+        position: absolute;
+        width: 20px;
+        height: 20px;
+        background-color: #ff6ec7;
+        border-radius: 50%;
+    }
+
+    .heart:before {
+        top: -10px;
+        left: 0;
+    }
+
+    .heart:after {
+        top: 0;
+        left: -10px;
+    }
+
+    .stars {
+        position: absolute;
+        width: 3px;
+        height: 3px;
+        background-color: white;
+        border-radius: 50%;
+        animation: twinkle 2s infinite alternate;
+    }
+
+    .moon {
+        position: absolute;
+        top: 10%;
+        right: 10%;
+        width: 100px;
+        height: 100px;
+        background-color: #fff;
+        border-radius: 50%;
+        box-shadow: 0 0 50px #fff;
+    }
+
+    .moon:before {
+        content: '';
+        position: absolute;
+        top: 20px;
+        right: 20px;
+        width: 80px;
+        height: 80px;
+        background-color: #2f0b4e;
+        border-radius: 50%;
+    }
+
+    @keyframes pulse {
+        0% { transform: scale(1); }
+        50% { transform: scale(1.05); }
+        100% { transform: scale(1); }
+    }
+
+    @keyframes float {
+        0% { transform: rotate(45deg) translateY(0); opacity: 0.8; }
+        50% { transform: rotate(45deg) translateY(-20px); opacity: 1; }
+        100% { transform: rotate(45deg) translateY(0); opacity: 0.8; }
+    }
+
+    @keyframes twinkle {
+        from { opacity: 0.3; }
+        to { opacity: 1; }
+    }
+
+    #fireworks {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        pointer-events: none;
+        z-index: 100;
+    }
+  </style>
+</head>
+<body>
+<div class="moon"></div>
+<div id="fireworks"></div>
+
+<div class="container">
+  <h1>七夕，我想对你说</h1>
+
+  <div class="message">
+    <p>银河再宽，也挡不住思念的传递</p>
+    <p>鹊桥再远，也隔不断想你的心情</p>
+    <p>从相遇的那一刻起，我的星空就为你亮起</p>
+    <p>每个平凡的日子，因为有你的存在而变得特别</p>
+    <p>今天，在这个属于爱的日子里</p>
+    <p>我想勇敢地告诉你：</p>
+    <p style="font-size: 1.5rem; margin: 1.5rem 0; color: #ff6ec7;">我爱你，愿意做你永远的牛郎/织女</p>
+    <p>你愿意和我一起，走过往后的每一个七夕吗？</p>
+  </div>
+
+  <div class="buttons">
+    <button id="accept">我愿意</button>
+    <button id="refuse">再考虑一下</button>
+  </div>
+</div>
+
+<script>
+  // 创建星星
+  function createStars() {
+      const starsCount = 150;
+      for (let i = 0; i < starsCount; i++) {
+          const star = document.createElement('div');
+          star.className = 'stars';
+          star.style.left = `${Math.random() * 100}vw`;
+          star.style.top = `${Math.random() * 100}vh`;
+          star.style.animationDelay = `${Math.random() * 2}s`;
+          star.style.width = `${Math.random() * 3 + 1}px`;
+          star.style.height = star.style.width;
+          document.body.appendChild(star);
+      }
+  }
+
+  // 创建爱心
+  function createHearts() {
+      setInterval(() => {
+          const heart = document.createElement('div');
+          heart.className = 'heart';
+          heart.style.left = `${Math.random() * 100}vw`;
+          heart.style.top = '110vh';
+          heart.style.animationDuration = `${Math.random() * 5 + 3}s`;
+          heart.style.opacity = Math.random() * 0.8 + 0.2;
+          heart.style.transform = `rotate(45deg) scale(${Math.random() * 0.8 + 0.4})`;
+          document.body.appendChild(heart);
+
+          // 移除过期的爱心
+          setTimeout(() => {
+              heart.remove();
+          }, 8000);
+      }, 300);
+  }
+
+  // 拒绝按钮的调皮效果
+  const refuseBtn = document.getElementById('refuse');
+  refuseBtn.addEventListener('mouseover', () => {
+      const x = Math.random() * (window.innerWidth - refuseBtn.offsetWidth);
+      const y = Math.random() * (window.innerHeight - refuseBtn.offsetHeight);
+      refuseBtn.style.position = 'absolute';
+      refuseBtn.style.left = `${x}px`;
+      refuseBtn.style.top = `${y}px`;
+  });
+
+  // 接受按钮效果
+  const acceptBtn = document.getElementById('accept');
+  const fireworks = document.getElementById('fireworks');
+
+  acceptBtn.addEventListener('click', () => {
+      showFireworks();
+      document.querySelector('.message').innerHTML = `
+          <p style="font-size: 1.8rem; color: #ff6ec7;">太好了！</p>
+          <p>从今天起，我们的故事正式开始</p>
+          <p>往后余生，风雪是你，平淡是你</p>
+          <p>目光所至，满心欢喜都是你</p>
+          <p>我爱你 ❤️</p>
+      `;
+      document.querySelector('.buttons').remove();
+  });
+
+  // 烟花效果
+  function showFireworks() {
+      for (let i = 0; i < 20; i++) {
+          setTimeout(() => {
+              const firework = document.createElement('div');
+              const size = Math.random() * 100 + 50;
+              const color = `rgb(${Math.random() * 255}, ${Math.random() * 255}, ${Math.random() * 255})`;
+
+              firework.style.position = 'absolute';
+              firework.style.width = `${size}px`;
+              firework.style.height = `${size}px`;
+              firework.style.borderRadius = '50%';
+              firework.style.background = color;
+              firework.style.left = `${Math.random() * 100}vw`;
+              firework.style.top = `${Math.random() * 100}vh`;
+              firework.style.boxShadow = `0 0 ${Math.random() * 50 + 20}px ${color}`;
+              firework.style.opacity = '0';
+              firework.style.animation = `firework 1s forwards`;
+
+              fireworks.appendChild(firework);
+
+              setTimeout(() => {
+                  firework.remove();
+              }, 1000);
+          }, i * 300);
+      }
+  }
+
+  // 添加烟花动画
+  const style = document.createElement('style');
+  style.textContent = `
+      @keyframes firework {
+          0% { transform: scale(0); opacity: 1; }
+          100% { transform: scale(1); opacity: 0; }
+      }
+  `;
+  document.head.appendChild(style);
+
+  // 初始化
+  createStars();
+  createHearts();
+</script>
+</body>
+</html>
